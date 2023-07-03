@@ -8,6 +8,7 @@
  * Tetris().board_height = 14; // Height of game board
  *
  */
+
 Tetris tetris = new Tetris();
 
 // Tetris game tick
@@ -277,6 +278,13 @@ class Tetris {
 
   // Game update
   void update() {
+    
+
+    UpdatePressedInput();
+    UpdateReleasedInput();
+    
+    
+    
     switch (this.status) {
       case 0:
         this.tick_playing();
@@ -470,49 +478,112 @@ class Tetromino {
 * if you want to use key presses elsewhere in your own code
 * you will need to extend of rename these functions.
 */
-void keyPressed() {
-  // Down
-  if (keyCode == DOWN) {
+
+  /*
+  10
+  up : 2
+  down : 6
+  left : 8
+  right : 4
+  0 1 2 3
+  */
+  
+boolean IsDownPressed()
+{
+  return keyCode == DOWN || IsDownPressed;
+}
+
+boolean IsLeftPressed()
+{
+  return keyCode == LEFT || IsLeftPressed;
+}
+
+boolean IsRightPressed()
+{
+  return keyCode == RIGHT || IsRightPressed;
+}
+
+boolean IsNewGamePressed()
+{
+  return (keyCode == ENTER || stick.getButton(10).getValue()==7) && tetris.status != 0;
+}
+
+boolean IsUpPressed()
+{
+  return keyCode == UP || IsUpPressed;
+}
+
+  
+void UpdatePressedInput()
+{
+    // Down
+  if (IsDownPressed()) {
     tetris.move('d');
     tetris.input_down = true;
     tetris.input_down_time = millis();
   }
-
-  // Left or Right
-  if (keyCode == LEFT) {
+  
+    // Left or Right
+  if (IsLeftPressed()) {
     tetris.move('l');
     tetris.input_left = true;
     tetris.input_strafe_time = millis();
   }
-  else if (keyCode == RIGHT) {
+  else if (IsRightPressed()) {
     tetris.move('r');
     tetris.input_right = true;
     tetris.input_strafe_time = millis();
   }
-
-  // New game/start
-  if (keyCode == ENTER && tetris.status != 0) {
+  
+    // New game/start
+  if ( IsNewGamePressed() ) {
     tetris.restart();
   }
-
-  // Rotate
-  if (keyCode == UP) {
+  
+  if (IsUpPressed()) {
     tetris.rotate();
   }
+  
+}
+
+void UpdateReleasedInput()
+{
+  if (keyCode == DOWN || IsDownPressed==false) {
+    tetris.input_down = false;
+  }
+  // Left
+  if (keyCode == LEFT || IsLeftPressed==false) {
+    tetris.input_left = false;
+  }
+  // Right
+  if (keyCode == RIGHT || IsRightPressed==false) {
+    tetris.input_right = false;
+  }
+}
+  
+void keyPressed() {
+  UpdatePressedInput();
 }
 
 // Key releases for Tetris
 void keyReleased() {
+  UpdateReleasedInput();
+
+  /*
   // Down
-  if (keyCode == DOWN) {
+  if (keyCode == DOWN || stick.getButton(10).getValue()==0) {
     tetris.input_down = false;
   }
   // Left
-  if (keyCode == LEFT) {
+  if (keyCode == LEFT || stick.getButton(10).getValue()==0) {
     tetris.input_left = false;
   }
   // Right
-  if (keyCode == RIGHT) {
+  if (keyCode == RIGHT || stick.getButton(10).getValue()==0) {
     tetris.input_right = false;
   }
+  */
+
+  
+
 }

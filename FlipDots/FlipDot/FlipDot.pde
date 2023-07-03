@@ -17,17 +17,35 @@
  * - processing.serial | Processing foundation
  * - websockets | Lasse Steenbock Vestergaard | (Only for realtime Crypo feed example)
  */
+import org.gamecontrolplus.*;
+//import org.gamecontrollplus.gui.*;
+
+ControlIO control;
+ControlDevice stick;
+boolean IsUpPressed = false;
+boolean IsDownPressed = false;
+boolean IsLeftPressed = false;
+boolean IsRightPressed = false;
+
 void setup() {
   size(1080, 720, P2D);
+
+  control = ControlIO.getInstance(this);
+  println(control.getDevices());
+  stick = control.getDevice("Controller (XBOX 360 For Windows)");
+  println(stick.toText(""));
+  
+  
   frameRate(config_fps);
   colorMode(RGB, 255, 255, 255, 1);
 
   // Core setup functions
-  cast_setup();
+    cast_setup();
   config_setup();
   stages_setup();
   ui_setup();
-
+  
+  
   // Scene setup
   //crypto_ticker_setup();
 }
@@ -36,10 +54,82 @@ void setup() {
 /**
  * Draw tick
  */
+ 
+ int pressedNum = 0;
 void draw() {
   background(59); //<>//
 
-  // 3D test
+  /*
+  10
+  up : 2
+  down : 6
+  left : 8
+  right : 4
+  0 1 2 3
+  */
+  
+  if(stick.getButton(10).getValue()>1.5 && stick.getButton(10).getValue()<2.5)
+  {
+    //println("ttt:"+stick.getButton(10).getValue());
+    IsUpPressed = true;
+  }else{
+    //println("ggg:"+stick.getButton(10).getValue());
+    IsUpPressed = false;
+  }
+  
+   if(stick.getButton(10).getValue()>5.5 && stick.getButton(10).getValue()<6.5)
+  {
+    IsDownPressed = true;
+  }else{
+    IsDownPressed = false;
+  }
+  
+   if(stick.getButton(10).getValue()>7.5 && stick.getButton(10).getValue()<8.5)
+  {
+    IsLeftPressed = true;
+  }else{
+    IsLeftPressed = false;
+  }
+  
+   if(stick.getButton(10).getValue()>3.5 && stick.getButton(10).getValue()<4.5)
+  {
+    IsRightPressed = true;
+  }else{
+    IsRightPressed = false;
+  }
+  
+  //println("IsUpPressed:"+IsUpPressed+" IsDownPressed:"+IsDownPressed+" IsLeftPressed:"+IsLeftPressed+" IsRightPressed:"+IsRightPressed);
+  
+  /*
+  for(int i=0; i<11; i++)
+  {
+      if(stick.getButton(i).pressed())
+      {
+        //pressedNum++;
+          println("button pressed"+ i+" value:"+stick.getButton(i).getValue());
+      }
+  }
+  */
+
+  
+
+  
+
+  
+  /*
+  10
+  up : 2
+  down : 6
+  left : 8
+  right : 4
+  0 1 2 3
+  */
+
+   
+  
+
+  
+    // 3D test
   virtual3D.beginDraw();
   virtual3D.background(0);
   virtual3D.translate(virtual3D.width / 2, virtual3D.height / 2);
@@ -77,4 +167,5 @@ void draw() {
 
   // Cast to display
   cast_broadcast();
+  
 }

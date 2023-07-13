@@ -19,22 +19,40 @@
  */
 import org.gamecontrolplus.*;
 //import org.gamecontrollplus.gui.*;
+import java.util.List;
 
 ControlIO control;
 ControlDevice stick;
+
+List<ControlDevice> devicesList;
+ControlDevice[] devicesArray;
+
 boolean IsUpPressed = false;
 boolean IsDownPressed = false;
 boolean IsLeftPressed = false;
 boolean IsRightPressed = false;
+boolean IsUseJoyStick = true;
 
 void setup() {
   size(1080, 720, P2D);
 
   control = ControlIO.getInstance(this);
   println(control.getDevices());
-  stick = control.getDevice("Controller (XBOX 360 For Windows)");
-  println(stick.toText(""));
   
+  
+  devicesList = control.getDevices();
+  devicesArray = devicesList.toArray(new ControlDevice[devicesList.size()]);
+  for (int i = 0; i < devicesArray.length; i++) {
+    println("Controller " + i + ": " + devicesArray[i].getName());
+    if(devicesArray[i].getName().equals("Controller (XBOX 360 For Windows)"))
+    {
+      stick = control.getDevice(devicesArray[i].getName());
+      println(stick.toText(""));
+    }
+  }
+
+  //stick = control.getDevice("Controller (XBOX 360 For Windows)");
+  //println(stick.toText(""));
   
   frameRate(config_fps);
   colorMode(RGB, 255, 255, 255, 1);
@@ -68,39 +86,44 @@ void draw() {
   0 1 2 3
   */
   
-  if(stick.getButton(10).getValue()>1.5 && stick.getButton(10).getValue()<2.5)
+  if(stick!=null)
   {
-    //println("ttt:"+stick.getButton(10).getValue());
-    IsUpPressed = true;
-  }else{
-    //println("ggg:"+stick.getButton(10).getValue());
-    IsUpPressed = false;
+      if( (stick.getButton(10).getValue()>1.5 && stick.getButton(10).getValue()<2.5) || stick.getButton(3).getValue()>7.0)
+      {
+        //println("ttt:"+stick.getButton(10).getValue());
+        IsUpPressed = true;
+      }else{
+        //println("ggg:"+stick.getButton(10).getValue());
+        IsUpPressed = false;
+      }
+      
+       if( (stick.getButton(10).getValue()>5.5 && stick.getButton(10).getValue()<6.5) || stick.getButton(0).getValue()>7.0)
+      {
+        IsDownPressed = true;
+      }else{
+        IsDownPressed = false;
+      }
+      
+       if(stick.getButton(10).getValue()>7.5 && stick.getButton(10).getValue()<8.5)
+      {
+        IsLeftPressed = true;
+      }else{
+        IsLeftPressed = false;
+      }
+      
+      if(stick.getButton(10).getValue()>3.5 && stick.getButton(10).getValue()<4.5)
+      {
+        IsRightPressed = true;
+      }else{
+        IsRightPressed = false;
+      }
   }
   
-   if(stick.getButton(10).getValue()>5.5 && stick.getButton(10).getValue()<6.5)
-  {
-    IsDownPressed = true;
-  }else{
-    IsDownPressed = false;
-  }
-  
-   if(stick.getButton(10).getValue()>7.5 && stick.getButton(10).getValue()<8.5)
-  {
-    IsLeftPressed = true;
-  }else{
-    IsLeftPressed = false;
-  }
-  
-   if(stick.getButton(10).getValue()>3.5 && stick.getButton(10).getValue()<4.5)
-  {
-    IsRightPressed = true;
-  }else{
-    IsRightPressed = false;
-  }
+
   
   //println("IsUpPressed:"+IsUpPressed+" IsDownPressed:"+IsDownPressed+" IsLeftPressed:"+IsLeftPressed+" IsRightPressed:"+IsRightPressed);
   
-  /*
+  
   for(int i=0; i<11; i++)
   {
       if(stick.getButton(i).pressed())
@@ -109,7 +132,7 @@ void draw() {
           println("button pressed"+ i+" value:"+stick.getButton(i).getValue());
       }
   }
-  */
+  
 
   
 

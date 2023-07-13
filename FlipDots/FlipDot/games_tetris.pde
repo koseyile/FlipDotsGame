@@ -520,6 +520,9 @@ boolean IsNewGamePressed()
 int rotateFrameCount; 
 boolean isRotating;
 
+int leftPressedFrameCount;
+int rightPressedFrameCount;
+
 void UpdatePressedInput()
 {
     // Down
@@ -529,13 +532,27 @@ void UpdatePressedInput()
     tetris.input_down_time = millis();
   }
   
+  if(IsLeftPressed())
+  {
+    leftPressedFrameCount++;
+  }else{
+    leftPressedFrameCount = 0;
+  }
+  
+  if(IsRightPressed())
+  {
+    rightPressedFrameCount++;
+  }else{
+    rightPressedFrameCount = 0;
+  }
+  
     // Left or Right
-  if (IsLeftPressed()) {
+  if (leftPressedFrameCount==1 || leftPressedFrameCount>30) {
     tetris.move('l');
     tetris.input_left = true;
     tetris.input_strafe_time = millis();
   }
-  else if (IsRightPressed()) {
+  else if (rightPressedFrameCount==1 || rightPressedFrameCount>30) {
     tetris.move('r');
     tetris.input_right = true;
     tetris.input_strafe_time = millis();

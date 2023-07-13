@@ -547,12 +547,18 @@ void UpdatePressedInput()
   }
   
     // Left or Right
-  if (leftPressedFrameCount==1 || leftPressedFrameCount>30) {
+  if (leftPressedFrameCount==1 || leftPressedFrameCount>10)
+  //if (leftPressedFrameCount==1)
+  {
+    print("left:"+leftPressedFrameCount);
     tetris.move('l');
     tetris.input_left = true;
     tetris.input_strafe_time = millis();
   }
-  else if (rightPressedFrameCount==1 || rightPressedFrameCount>30) {
+  else if (rightPressedFrameCount==1 || rightPressedFrameCount>10)
+  //else if (rightPressedFrameCount==1)
+  {
+    print("right:"+rightPressedFrameCount);
     tetris.move('r');
     tetris.input_right = true;
     tetris.input_strafe_time = millis();

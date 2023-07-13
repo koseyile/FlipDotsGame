@@ -38,7 +38,7 @@
  * Boolean config_show_simulator
  *   Show/Hide the UI simulator.
  */
-boolean config_cast = false;
+boolean config_cast = true;
 int config_fps = 30;
 int config_canvasW;
 int config_canvasH;

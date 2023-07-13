@@ -123,7 +123,7 @@ void draw() {
   
   //println("IsUpPressed:"+IsUpPressed+" IsDownPressed:"+IsDownPressed+" IsLeftPressed:"+IsLeftPressed+" IsRightPressed:"+IsRightPressed);
   
-  
+  /*
   for(int i=0; i<11; i++)
   {
       if(stick.getButton(i).pressed())
@@ -132,6 +132,7 @@ void draw() {
           println("button pressed"+ i+" value:"+stick.getButton(i).getValue());
       }
   }
+  */
   
 
   

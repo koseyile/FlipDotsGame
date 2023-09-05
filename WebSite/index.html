@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+    }
+
+    :root {
+      --JoystickButtonSize: 160px;
+    }
+    
+    #BackGround {
+      width: 90%;
+      height: 80%;
+      background-color: #999999;
+      position: relative;
+    }
+    
+    #GroundChild1 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 533px; /* 根据需要进行调整 */
+      height: 400px; /* 根据需要进行调整 */
+      background-color: #000000;
+    }
+
+    #GroundChild2 {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px; /* 根据需要进行调整 */
+      height: 300px; /* 根据需要进行调整 */
+      background-color: #000000;
+    }
+    
+    .JoystickButton {
+      position: absolute;
+      width: var(--JoystickButtonSize);
+      height: var(--JoystickButtonSize);
+      background-color: #ffffff;
+      text-align: center;
+      line-height: var(--JoystickButtonSize);
+      font-size: 16px;
+      color: #000000;
+      border-radius: 50%; /* 将按钮的圆角设置为宽度或高度的一半 */
+      transition: transform 0.2s ease; /* 添加过渡效果 */
+    }
+
+    #GroundChild1 .JoystickButton:active {
+        background-color: #cccccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    #LeftButton {
+      left: 0;
+      top: 50%;
+      transform: translateY(calc(-50%));
+    }
+
+    #UpButton {
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%) translateY(calc(50% - var(--JoystickButtonSize) / 2));
+    }
+
+    #RightButton {
+      right: 0;
+      top: 50%;
+      transform: translateY(calc(-50%));
+    }
+
+    #DownButton {
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%) translateY(calc(50% - var(--JoystickButtonSize) / 2));
+    }
+
+    #ButtonA {
+      left: 0;
+      top: 50%;
+      transform: translateY(calc(-50%));
+    }
+
+    #ButtonB {
+      right: 0;
+      top: 50%;
+      transform: translateY(calc(-50%));
+    }
+
+  </style>
+</head>
+
+  
+  <style>
+    html, body {
+      touch-action: manipulation;
+    }
+
+    #BackGround, #GroundChild1, #GroundChild2 {
+      touch-action: none;
+    }
+  </style>
+  
+
+<body>
+  <div id="BackGround">
+    <div id="GroundChild1">
+    <button id="UpButton" class="JoystickButton" onclick="handleButtonClick('up')"></button>
+    <button id="DownButton" class="JoystickButton" onclick="handleButtonClick('down')"></button>
+    <button id="LeftButton" class="JoystickButton" onclick="handleButtonClick('left')"></button>
+    <button id="RightButton" class="JoystickButton" onclick="handleButtonClick('right')"></button>
+    </div>
+
+    <!--
+    <div id="GroundChild2">
+        <button id="ButtonA" class="JoystickButton">A</button>
+        <button id="ButtonB" class="JoystickButton">B</button>
+    </div>
+    -->
+  </div>
+
+  <ul id="log"></ul>
+
+  <script>
+    function handleButtonClick(direction) {
+        var logElement = document.getElementById('log');
+        var newLogItem = document.createElement('li');
+        newLogItem.textContent = `Clicked ${direction} button`;
+        logElement.appendChild(newLogItem);
+    }
+  </script>
+
+    <!-- 
+    <ul id="events"></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const $events = document.getElementById('events');
+
+        const newItem = (content) => {
+            const item = document.createElement('li');
+            item.innerText = content;
+            return item;
+        };
+
+        /*
+        const socket = io();
+
+        socket.on('connect', () => {
+            $events.appendChild(newItem('connect'));
+        });
+        
+        */
+
+        /*
+        const socket = io();
+
+        socket.on('connect', () => {
+            $events.appendChild(newItem('connect'));
+        });
+
+        socket.on('hello', (counter) => {
+            $events.appendChild(newItem(`hello - ${counter}`));
+        });
+        */
+
+        const socket = io();
+
+        socket.on('connect', () => {
+            $events.appendChild(newItem('connect'));
+        });
+
+        let counter = 0;
+        setInterval(() => {
+            ++counter;
+            socket.emit('hey', { counter }); // the object will be serialized for you
+        }, 1000);
+    </script>
+    -->
+
+</body>
+</html>
+
+

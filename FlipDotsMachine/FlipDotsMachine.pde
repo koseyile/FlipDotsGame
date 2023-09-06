@@ -1,13 +1,21 @@
+Logging logging;
+FlipDotsController flipDotsController;
 
-void setup(){
-  size(1080, 720);
-  surface.setTitle("FlipDotsMachine");
+void setup() {
+  size(400, 300);
+  surface.setTitle("Logging Example");
+
+  logging = new Logging(this);
+  flipDotsController = new FlipDotsController(this);
+
+  // 调用日志函数进行测试
+  logging.log("This is the first log");
+  logging.log("This is the second log");
 }
 
-void draw(){
-  background(59);
-  fill(255);
-  textSize(32);
-  textAlign(CENTER,CENTER);
-  text("Hello World", width/2, height/2);
+void draw() {
+  background(255);
+  logging.displayLogs();
+  
+  flipDotsController.update();
 }

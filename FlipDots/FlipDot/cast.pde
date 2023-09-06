@@ -62,7 +62,10 @@ void cast_broadcast() {
       cast_write(adapter, panels[i].buffer);
       cast_write(adapter, 0x8F);
     }
+    
+    //println("mySerial available:"+adaptersSerial[0].available());
   }
+  
 
   // Video sync update
   // This instruction tells all panels to refresh

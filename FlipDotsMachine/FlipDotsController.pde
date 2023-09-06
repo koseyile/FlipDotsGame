@@ -1,4 +1,5 @@
 import processing.serial.*;
+import socketio.*;
 
 public class FlipDotsController {
   private PApplet parent;
@@ -8,6 +9,10 @@ public class FlipDotsController {
   private boolean[][] dotStates; // 记录每个点的状态
   private byte[] mBuffer1;
   private byte[] mBuffer2;
+  
+  //socket.io
+  private String serverUrl = "http://localhost:3000"; 
+  private SocketIOClient socket;
 
   public FlipDotsController(PApplet p) {
     numColumns = 14;
@@ -29,6 +34,19 @@ public class FlipDotsController {
     mySerial = new Serial(parent, "COM3", 57600); // 根据实际情况设置波特率
     //mySerial.clear(); // 清空串行缓冲区
     
+    
+    // 连接到 Socket.IO 服务器
+    socket = new SocketIOClient(this, serverUrl);
+    socket.connect();
+  
+    // 注册事件监听器
+    socket.on("message", new MessageEvent() {
+      void onEvent(JSONArray data) {
+        // 处理收到的消息
+        String message = data.getString(0);
+        processMessage(message);
+      }
+     });
   }
   
   private void WriteBuffer(int id, byte[] buffer)

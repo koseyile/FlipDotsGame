@@ -1,5 +1,6 @@
 import processing.serial.*;
-import socketio.*;
+//import vsync.*;
+
 
 public class FlipDotsController {
   private PApplet parent;
@@ -10,10 +11,6 @@ public class FlipDotsController {
   private byte[] mBuffer1;
   private byte[] mBuffer2;
   
-  //socket.io
-  private String serverUrl = "http://localhost:3000"; 
-  private SocketIOClient socket;
-
   public FlipDotsController(PApplet p) {
     numColumns = 14;
     numRows = 28;
@@ -24,7 +21,6 @@ public class FlipDotsController {
     mBuffer1 = new byte[28];
     mBuffer2 = new byte[28];
 
-
       //String[] portList = Serial.list();
       //for (String port : portList) {
       //  println(port);
@@ -34,19 +30,6 @@ public class FlipDotsController {
     mySerial = new Serial(parent, "COM3", 57600); // 根据实际情况设置波特率
     //mySerial.clear(); // 清空串行缓冲区
     
-    
-    // 连接到 Socket.IO 服务器
-    socket = new SocketIOClient(this, serverUrl);
-    socket.connect();
-  
-    // 注册事件监听器
-    socket.on("message", new MessageEvent() {
-      void onEvent(JSONArray data) {
-        // 处理收到的消息
-        String message = data.getString(0);
-        processMessage(message);
-      }
-     });
   }
   
   private void WriteBuffer(int id, byte[] buffer)
@@ -76,7 +59,7 @@ public class FlipDotsController {
     SetDotState(6, 1, true);
     SetDotState(7, 1, true);
     SetDotState(13, 1, true);
-    SetDotState(13, 27, true);
+    SetDotState(12, 27, true);
     
     WriteBuffer(1, mBuffer1);
     WriteBuffer(2, mBuffer2);
@@ -124,7 +107,7 @@ public class FlipDotsController {
       v1 |= v2;
     }
     
-    println("SetDotState: " + Integer.toBinaryString(v1));
+    //println("SetDotState: " + Integer.toBinaryString(v1));
     buffer[y] = v1;
     
   }

@@ -131,14 +131,21 @@
 
   <ul id="log"></ul>
 
-  <script>
+  <!-- <script>
     function handleButtonClick(direction) {
         var logElement = document.getElementById('log');
         var newLogItem = document.createElement('li');
         newLogItem.textContent = `Clicked ${direction} button`;
         logElement.appendChild(newLogItem);
+
+
+        const socket = io();
+        socket.emit('browser', {
+          x: 1
+        });
+
     }
-  </script>
+  </script> -->
 
     
     <ul id="events"></ul>
@@ -179,11 +186,24 @@
             $events.appendChild(newItem('connect'));
         });
 
-        let counter = 0;
-        setInterval(() => {
-            ++counter;
-            socket.emit('hey', { counter }); // the object will be serialized for you
-        }, 1000);
+
+        // let counter = 0;
+        // setInterval(() => {
+        //     ++counter;
+        //     socket.emit('hey', { counter }); // the object will be serialized for you
+        // }, 1000);
+
+        function handleButtonClick(direction) {
+          var logElement = document.getElementById('log');
+          var newLogItem = document.createElement('li');
+          newLogItem.textContent = `Clicked ${direction} button`;
+          logElement.appendChild(newLogItem);
+
+          socket.emit('browser', {
+            x: 1
+          });
+        }
+
     </script>
     
 

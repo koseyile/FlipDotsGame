@@ -115,10 +115,10 @@
 <body>
   <div id="BackGround">
     <div id="GroundChild1">
-    <button id="UpButton" class="JoystickButton" onclick="handleButtonClick('up')"></button>
-    <button id="DownButton" class="JoystickButton" onclick="handleButtonClick('down')"></button>
-    <button id="LeftButton" class="JoystickButton" onclick="handleButtonClick('left')"></button>
-    <button id="RightButton" class="JoystickButton" onclick="handleButtonClick('right')"></button>
+    <button id="UpButton" class="JoystickButton" onclick="handleButtonClick(0)"></button>
+    <button id="DownButton" class="JoystickButton" onclick="handleButtonClick(1)"></button>
+    <button id="LeftButton" class="JoystickButton" onclick="handleButtonClick(2)"></button>
+    <button id="RightButton" class="JoystickButton" onclick="handleButtonClick(3)"></button>
     </div>
 
     <!--
@@ -200,8 +200,11 @@
           logElement.appendChild(newLogItem);
 
           socket.emit('browser', {
-            x: 1
+            x: direction,
+            y: 8
           });
+
+
         }
 
     </script>

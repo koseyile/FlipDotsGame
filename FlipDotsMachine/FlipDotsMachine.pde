@@ -18,6 +18,7 @@ void setup() {
   logging.log("This is the second log");
   
    oscP5 = new OscP5(this, 9999);
+   //dest = new NetAddress("192.168.1.37", 9998);
    dest = new NetAddress("127.0.0.1", 9998);
 }
 
@@ -50,7 +51,11 @@ void sendOsc() {
 void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/socketio") == true) {
     // Receiving the output from browser
-    int output = theOscMessage.get(0).intValue();  
-    println("oscEvent:"+output);
+    int output = theOscMessage.get(0).intValue();
+    println("oscEvent: 0="+output);
+    
+    output = theOscMessage.get(1).intValue();
+    println("oscEvent: 1="+output);
+    
   }
 }

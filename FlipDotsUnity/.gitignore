@@ -17,9 +17,6 @@
 *.unitypackage
 
 
-**/*.framework/*
-!**/*.framework/*.meta
-
 bazel-*
 
 Assets/StreamingAssets*
